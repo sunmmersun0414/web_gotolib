@@ -420,7 +420,7 @@ def main(config):
                                 seat_room = config.mylove_seat[config.mylove_seat.index(seat_where)-1]
                             # print('changguan :: ',seat_room)
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
-                            print(msg,seat_where)
+                            # print(msg,seat_where)
                         elif '选座成功' in msg:
 
                             send_mail('选座成功：  %s'%config.seat_where,config.email)
