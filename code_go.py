@@ -309,6 +309,10 @@ def main(config):
     my_love =[config.mylove_seat[1],config.mylove_seat[3]]
     config.seat_where=config.mylove_seat[1]
     config.seat_room = config.mylove_seat[0]
+    if config.email == '773916295@qq.com':
+        my_love = ['40,33','38,34','40,35','36,38','32,39','34,39','30,40','36,36','34,37',
+               '32,37','36,34','34,35','49,49','49,51','45,49','45,51']
+        config.seat_where='40,33'
     # my_love = ['40,33','38,34','40,35','36,38','32,39','34,39','30,40','36,36','34,37',
     #            '32,37','36,34','34,35','49,49','49,51','45,49','45,51']
     spare=get_time(config)
@@ -410,10 +414,13 @@ def main(config):
                                 sys.exit(0)
                         loop_time+=1
                         if '该座位已经被人预定了!' in msg:
-                            seat_room = config.mylove_seat[config.mylove_seat.index(seat_where)-1]
+                            if config.email=='773916295@qq.com':
+                                seat_room = config.seat_room
+                            else:
+                                seat_room = config.mylove_seat[config.mylove_seat.index(seat_where)-1]
                             # print('changguan :: ',seat_room)
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
-                            # print(msg,config.seat_where)
+                            print(msg,seat_where)
                         elif '选座成功' in msg:
 
                             send_mail('选座成功：  %s'%config.seat_where,config.email)
