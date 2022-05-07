@@ -406,7 +406,7 @@ def main(config):
 
                 elif '该座位已经被人预定了!' in msg:
                     for seat_where in my_love:
-                        if loop_time>120:
+                        if loop_time>240:
                             send_mail('位置已连续一小时有人，系统已自动停止，若有需要，可以重新抢座',config.email)
                             while True:
                                 time.sleep(2)
@@ -421,9 +421,22 @@ def main(config):
                             # print('changguan :: ',seat_room)
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
                             # print(msg,seat_where)
+                        elif '场馆尚未开放，无法操作' in msg:
+                          time.sleep(1)
+                          msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
+                        elif '退选或自动释放座位 3 分钟内不可选座'in msg:
+                          time.sleep(10)
+                          msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
+                        elif '您已经预定了座位'in msg:
+                          while True:
+                                time.sleep(2)
+                                import sys
+                                sys.exit(0)
+                                # time.sleep(120)
+                                # wcid, seid = get_wechatSESS_ID()
                         elif '选座成功' in msg:
 
-                            send_mail('选座成功：  %s'%config.seat_where,config.email)
+                            send_mail('选座成功：  %s'%seat_where,config.email)
                             while True:
                                 time.sleep(2)
                                 import sys
