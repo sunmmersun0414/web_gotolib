@@ -8,8 +8,6 @@ import time
 import datetime
 import yagmail
 import pyperclip
-import win32api
-import win32con
 from send_email import send_mail
 # from request_test import get_wechatSESS_ID
 from util.utils import get_cookie,cookie_check
