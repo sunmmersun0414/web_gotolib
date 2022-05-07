@@ -152,7 +152,7 @@ if __name__ == '__main__':
     start_server(applications=[check_pwd, ],
         debug=False,
         auto_open_webbrowser=False,
-        remote_access=True,)
+        remote_access=True,port=9998,reconnect_timeout=5)
     # start_server(
     #     applications=[input_input, ],
     #     debug=True,
