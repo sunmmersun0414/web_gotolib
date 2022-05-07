@@ -267,7 +267,7 @@ def cookie_loop(config):
                             json=library_body)
                 r_cookie = requests.utils.dict_from_cookiejar(r.cookies)
                 config.my_cookies['cookie'] = update_cookie(r_cookie, this_cookie['cookie'])
-                print('r_cookie: ',r_cookie)
+                # print('r_cookie: ',r_cookie)
                 with open('./status.json', 'w', encoding='utf-8') as f:
                     f.write(json.dumps({"cookie":config.my_cookies['cookie']}, ensure_ascii=False))
 
@@ -410,7 +410,6 @@ def main(config):
                                 time.sleep(2)
                                 import sys
                                 sys.exit(0)
-                        loop_time+=1
                         if '该座位已经被人预定了!' in msg:
                             if config.email=='773916295@qq.com':
                                 seat_room = config.seat_room
@@ -418,6 +417,7 @@ def main(config):
                                 seat_room = config.mylove_seat[config.mylove_seat.index(seat_where)-1]
                             # print('changguan :: ',seat_room)
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
+                            loop_time+=1
                             # print(msg,seat_where)
                         elif '场馆尚未开放，无法操作' in msg:
                           time.sleep(1)
@@ -426,6 +426,7 @@ def main(config):
                           time.sleep(10)
                           msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
                         elif '您已经预定了座位'in msg:
+                          send_mail('您已经预定了座位：选座系统已退出，如有需要，可再次运行',config.email)
                           while True:
                                 time.sleep(2)
                                 import sys
