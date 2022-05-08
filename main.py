@@ -10,6 +10,25 @@ import threading
 from code_go import go_main
 
 passwordtoid = {}
+# th = {}
+
+# class StoppableThread(threading.Thread):
+#     """Thread class with a stop() method. The thread itself has to check
+#
+#     regularly for the stopped() condition."""
+#
+#     def __init__(self):
+#         super(StoppableThread, self).__init__()
+#
+#         self._stop_event = threading.Event()
+#
+#     def stop(self):
+#         self._stop_event.set()
+#
+#     def stopped(self):
+#         return self._stop_event.is_set()
+
+
 
 def get_cookie(url):
     def get_code(url):
@@ -95,7 +114,7 @@ def check_pwd():
             #     print('passwordtoid: ',passwordtoid)
             put_text(check_return)
             if pwd_sign:
-                input_input()
+                input_input(id)
                 return True
             else:
                 put_text(check_return)
@@ -103,11 +122,11 @@ def check_pwd():
     check_passowrd(pwd)
 
 
-    return pwd_sign
+    return pwd_sign,id
 
 
 
-def input_input():
+def input_input(id):
     re_mail = input('输入希望接收通知的邮箱地址(不想接收可以不写):', type=TEXT, help_text='详情咨询sun.h.w@foxmail.com')
     # radio_res = radio(
     #     '选座期望场所',
@@ -119,6 +138,17 @@ def input_input():
     # select_res = select("选座期望场所:", ['一楼走廊 (一楼)', '一楼学生自修室 (一楼)', '二楼走廊 (二楼)','201科技图书借阅Ⅰ室 (2楼)',
     #              '202科技图书借阅Ⅱ室 (2楼)','三楼走廊 (三楼)','302社科图书借阅Ⅰ室 (3楼)','305社科图书借阅Ⅱ室 (3楼)',
     #              '四楼走廊 (四楼)','406社科图书借阅Ⅲ室 (4楼)'])
+    if str(id) in str(threading.enumerate()):
+        put_text('already start:  %s' % id)
+        confirm = actions('你已经在选座中，若已经修改座位，点击继续', ['继续', '退出'],
+                          help_text='继续后有可能还会抢到之前预设座位！！退出 不影响正在运行的抢座程序')
+        # put_markdown('You clicked the `%s` button' % confirm).show()
+        # if confirm == '中断':
+        #     # th[id].StoppableThread.stop()
+        #     put_text('already stop:  %s' % id)
+        if confirm == '退出':
+            put_text('操作成功！')
+            return False
 
 
     put_image(open('code.png', 'rb').read(),width='20%',height='20%')
@@ -135,7 +165,15 @@ def input_input():
             oftenseat = often_seat(cookie_string)
             put_text(oftenseat)
             # seat_tmp=input(label="位置信息", name='seat', type=TEXT, value=oftenseat[0] + '和' + oftenseat[3], readonly=True)
-            threading.Thread(target=go_main, args=[cookie_string,re_mail,oftenseat]).start()
+            if id not in str(threading.enumerate()):
+                put_text('start:  %s'%id)
+                id_tmp=threading.Thread(name=id,target=go_main, args=[cookie_string,re_mail,oftenseat])
+                id_tmp.start()
+                # th[id] = id_tmp
+
+            else:
+                put_text('already start:  %s' % id)
+
             return cookie_string
         except:
             put_text('地址错误：请重试!')

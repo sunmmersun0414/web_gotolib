@@ -307,6 +307,8 @@ def main(config):
     my_love =[config.mylove_seat[1],config.mylove_seat[3]]
     config.seat_where=config.mylove_seat[1]
     config.seat_room = config.mylove_seat[0]
+    seat_room = config.seat_room
+    seat_where = config.seat_where
     if config.email == '773916295@qq.com':
         my_love = ['40,33','38,34','40,35','36,38','32,39','34,39','30,40','36,36','34,37',
                '32,37','36,34','34,35','49,49','49,51','45,49','45,51']
@@ -364,9 +366,9 @@ def main(config):
                     # print('发送邮件成功')
                     pass
                 elif '退选或自动释放座位 3 分钟内不可选座!' in msg:
-                    # print(msg)
+                    # print(msg,seat_where)
                     time.sleep(10)
-                    msg =choose(config.my_cookies['cookie'],config.seat_room,config.seat_where)
+                    msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
                 elif '参数不正确' in msg:
                     # print(msg)
                     config = Config()
@@ -375,31 +377,16 @@ def main(config):
                     continue
                 # elif 'js_url_error' or '场馆尚未开放，无法操作' in msg:
                 elif '场馆尚未开放，无法操作' in msg:
-                    # d_time = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '6:00', '%Y-%m-%d%H:%M')
-                    # d_time1 = datetime.datetime.strptime(str(datetime.datetime.now().date()) + '16:00', '%Y-%m-%d%H:%M')
-                    # # 当前时间
-                    # n_time = datetime.datetime.now()
-                    # # 判断当前时间是否在范围时间内
-                    # if n_time > d_time and n_time < d_time1:
-                    #     print(msg)
-                    #     time.sleep(1)
-                    #     # wcid, seid = get_wechatSESS_ID()
-                    #     # config.my_cookies['wechatSESS_ID'] = wcid
-                    #     # config.my_cookies['SERVERID'] = seid
-                    #     # print(config.my_cookies['wechatSESS_ID'])
-                    #     # main(config)
-                    #     send_mail(msg)
-                    #     time.sleep(1)
-                    #     import sys
-                    #     sys.exit(0)
-                        # continue
-                    # else:
-                    # print('False:sleep,mo time:',((d_time-n_time).seconds)%2)
-                    # print(d_time,'  ',n_time,'  ',d_time1)
-                    # time.sleep((((d_time-n_time).seconds)%2))
                     time.sleep(1)
                     msg =choose(config.my_cookies['cookie'],config.seat_room,config.seat_where)
                     # print(msg, config.seat_where)
+                elif '您已经预定了座位' in msg:
+                    # print(msg, seat_where)
+                    send_mail('您已经预定了座位：选座系统已退出，如有需要，可再次运行', config.email)
+                    while True:
+                        time.sleep(2)
+                        import sys
+                        sys.exit(0)
 
 
                 elif '该座位已经被人预定了!' in msg:
@@ -419,22 +406,15 @@ def main(config):
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
                             loop_time+=1
                             # print(msg,seat_where)
-                        elif '场馆尚未开放，无法操作' in msg:
-                          time.sleep(1)
-                          msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
-                        elif '退选或自动释放座位 3 分钟内不可选座'in msg:
-                          time.sleep(10)
-                          msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
-                        elif '您已经预定了座位'in msg:
-                          send_mail('您已经预定了座位：选座系统已退出，如有需要，可再次运行',config.email)
-                          while True:
-                                time.sleep(2)
-                                import sys
-                                sys.exit(0)
-                                # time.sleep(120)
-                                # wcid, seid = get_wechatSESS_ID()
+                        # elif '场馆尚未开放，无法操作' in msg:
+                        #     time.sleep(1)
+                        #     msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
+                        #     print(msg, seat_where)
+                        # elif '退选或自动释放座位 3 分钟内不可选座'in msg:
+                        #     time.sleep(10)
+                        #     msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
+                        #     print(msg, seat_where)
                         elif '选座成功' in msg:
-
                             send_mail('选座成功：  %s'%seat_where,config.email)
                             while True:
                                 time.sleep(2)
