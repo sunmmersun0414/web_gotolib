@@ -397,6 +397,7 @@ def main(config):
                                 time.sleep(2)
                                 import sys
                                 sys.exit(0)
+                        loop_time+=1
                         if '该座位已经被人预定了!' in msg:
                             if config.email=='773916295@qq.com':
                                 seat_room = config.seat_room
@@ -404,7 +405,7 @@ def main(config):
                                 seat_room = config.mylove_seat[config.mylove_seat.index(seat_where)-1]
                             # print('changguan :: ',seat_room)
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
-                            loop_time+=1
+                            
                             # print(msg,seat_where)
                         # elif '场馆尚未开放，无法操作' in msg:
                         #     time.sleep(1)
