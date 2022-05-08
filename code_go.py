@@ -366,7 +366,7 @@ def main(config):
                     # print('发送邮件成功')
                     pass
                 elif '退选或自动释放座位 3 分钟内不可选座!' in msg:
-                    # print(msg,seat_where)
+                    print(msg,seat_where)
                     time.sleep(10)
                     msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
                 elif '参数不正确' in msg:
@@ -379,9 +379,9 @@ def main(config):
                 elif '场馆尚未开放，无法操作' in msg:
                     time.sleep(1)
                     msg =choose(config.my_cookies['cookie'],config.seat_room,config.seat_where)
-                    # print(msg, config.seat_where)
+                    print(msg,datetime.datetime.now())
                 elif '您已经预定了座位' in msg:
-                    # print(msg, seat_where)
+                    print(msg, seat_where,datetime.datetime.now())
                     send_mail('您已经预定了座位：选座系统已退出，如有需要，可再次运行', config.email)
                     while True:
                         time.sleep(2)
@@ -403,10 +403,10 @@ def main(config):
                                 seat_room = config.seat_room
                             else:
                                 seat_room = config.mylove_seat[config.mylove_seat.index(seat_where)-1]
-                            # print('changguan :: ',seat_room)
+                            # print('changguan :: ',seat_room,datetime.datetime.now())
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
                             
-                            # print(msg,seat_where)
+                            print(msg,seat_where)
                         # elif '场馆尚未开放，无法操作' in msg:
                         #     time.sleep(1)
                         #     msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
